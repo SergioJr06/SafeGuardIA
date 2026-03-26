@@ -1,3 +1,20 @@
+# Ambiente Virtual (NUNCA SUBIR)
 venv/
+
+# Arquivos de Compilação Python
 __pycache__/
-dataset/raw/
+*.pyc
+*.pyo
+
+# Executáveis locais
+ngrok.exe
+
+# Logs de treinamento e pesos temporários
+src/runs/
+
+# Arquivos de Sistema
+.DS_Store
+Thumbs.db
+
+# Configurações pessoais do VS Code (opcional)
+.vscode/
