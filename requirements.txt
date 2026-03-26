@@ -1,0 +1,11 @@
+ultralytics #Motor do YOLOv8 para treinar e rodar a IA de EPIs.
+opencv-python #Captura e processamento das imagens da webcam/celular.
+paho-mqtt #Protocolo para enviar alertas para outras câmeras ou sistemas.
+streamlit #Criação rápida de um Dashboard visual para os juízes.
+numpy
+roboflow #Facilita o download do seu dataset direto para o código.
+
+
+
+
+

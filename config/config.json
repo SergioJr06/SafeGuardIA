@@ -1,0 +1,26 @@
+{
+  "camera_webcam": {
+    "source": 0,
+    "require_helmet": true,
+    "require_glasses": true,
+    "require_boots": false,
+    "require_gloves": true,
+    "require_ear_protection": true
+  },
+  "camera_escritorio_ip": {
+      "ip": 0,
+      "require_helmet": false,
+      "require_glasses": false,
+      "require_boots": true,
+      "require_gloves": false,
+      "require_ear_protection": false
+  },
+  "camera_celular_sergio": {
+      "source": "http://192.168.1.47:8080/video",
+      "require_helmet": true,
+      "require_glasses": true,
+      "require_boots": false,
+      "require_gloves": true,
+      "require_ear_protection": true
+  }
+}
