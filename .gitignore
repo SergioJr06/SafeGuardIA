@@ -1,20 +1,19 @@
-# Ambiente Virtual (NUNCA SUBIR)
+# Ambiente Virtual
 venv/
+.env
 
-# Arquivos de Compilação Python
+# Arquivos de Compilação
 __pycache__/
 *.pyc
-*.pyo
 
-# Executáveis locais
+# Capturas de Tela (Snapshots de violação)
+capturas_violacao/
+
+# Executáveis e Logs
 ngrok.exe
-
-# Logs de treinamento e pesos temporários
 src/runs/
 
-# Arquivos de Sistema
+# Sistema e VS Code
 .DS_Store
 Thumbs.db
-
-# Configurações pessoais do VS Code (opcional)
 .vscode/
