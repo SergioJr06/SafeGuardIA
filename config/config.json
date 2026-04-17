@@ -3,8 +3,8 @@
         "source": 0,
         "require_helmet": true,
         "require_glasses": true,
-        "require_boots": true,
         "require_gloves": true,
+        "require_boots": true,
         "require_ear_protection": true,
         "require_mask": true,
         "require_vest": true

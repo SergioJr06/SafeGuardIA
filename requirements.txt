@@ -26,7 +26,7 @@ requests==2.33.1
 scipy==1.17.1
 setuptools==81.0.0
 six==1.17.0
-streamlit==latest-version
+streamlit==1.55.0
 sympy==1.14.0
 torch==2.11.0
 torchvision==0.26.0
@@ -34,3 +34,5 @@ typing_extensions==4.15.0
 ultralytics==8.4.32
 ultralytics-thop==2.0.18
 urllib3==2.6.3
+qrcode==8.2
+pyngrok==8.0.0
