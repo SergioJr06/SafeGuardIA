@@ -83,8 +83,18 @@ while True:
         # Carregamento Inicial do JSON
         with open(CONFIG_PATH, 'r') as f:
             data_config = json.load(f)
-            CAM_ESCOLHIDA = "camera_webcam" # Ou automatize a escolha
+            CAM_ESCOLHIDA = "camera_dvr" # Ou automatize a escolha
             config = data_config[CAM_ESCOLHIDA]
+
+
+        # ADICIONE ESTAS LINHAS AQUI:
+        print(f"DEBUG: Tentando abrir a fonte: {config['source']}")
+        cap = cv2.VideoCapture(config['source'])
+        
+        if not cap.isOpened():
+            print("❌ ERRO: Não foi possível conectar ao link RTSP. Verifique usuário e senha!")
+        else:
+            print("✅ Sucesso! Conexão estabelecida. Abrindo janela...")
 
         IDs_PERIGO = mapear_ids_risco(config, modelo.names)
         cap = cv2.VideoCapture(config['source'])

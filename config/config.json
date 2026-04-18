@@ -9,14 +9,34 @@
         "require_mask": true,
         "require_vest": true
     },
-    "camera_celular_sergio": {
-        "source": "http://192.168.37.63:8080/video",
+    "camera_dvr": {
+        "source": "rtsp://admin:senai123@192.168.0.200:554/snl/live/1/1",
         "require_helmet": true,
         "require_glasses": true,
-        "require_boots": false,
-        "require_gloves": true,
+        "require_boots": true,
         "require_ear_protection": true,
-        "require_mask": true,
-        "require_vest": true
+        "require_gloves": false,
+        "require_mask": false,
+        "require_vest": false
+    },
+    "camera_lampada_02": {
+        "source": "rtsp://admin:admin123@192.168.0.102:554/live/ch0",
+        "require_helmet": true,
+        "require_glasses": true,
+        "require_boots": true,
+        "require_ear_protection": true,
+        "require_gloves": false,
+        "require_mask": false,
+        "require_vest": false
+    },
+    "camera_lampada_03": {
+        "source": "rtsp://admin:admin123@192.168.0.103:554/live/ch0",
+        "require_helmet": true,
+        "require_glasses": true,
+        "require_boots": true,
+        "require_ear_protection": true,
+        "require_gloves": false,
+        "require_mask": false,
+        "require_vest": false
     }
 }
