@@ -1,19 +1,31 @@
-# Ambiente Virtual
+# ── Ambiente Virtual ────────────────────────────────────────
 venv/
 .env
 
-# Arquivos de Compilação
+# ── Arquivos de Compilação Python ───────────────────────────
 __pycache__/
 *.pyc
+*.pyo
+*.pyd
 
-# Capturas de Tela (Snapshots de violação)
+# ── Capturas de Violação (Snapshots) ────────────────────────
 capturas_violacao/
 
-# Executáveis e Logs
-ngrok.exe
+# ── Logs e Relatórios gerados em runtime ────────────────────
+relatorio_violacoes.csv
 src/runs/
 
-# Sistema e VS Code
+# ── Executáveis e Ferramentas externas ──────────────────────
+ngrok.exe
+ngrok
+
+# ── Sistema Operacional ──────────────────────────────────────
 .DS_Store
 Thumbs.db
+desktop.ini
+
+# ── IDEs e Editores ──────────────────────────────────────────
 .vscode/
+.idea/
+*.swp
+*.swo

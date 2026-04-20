@@ -5,29 +5,108 @@ import time
 import json
 import qrcode
 import csv
+import threading
 from datetime import datetime
 from pyngrok import ngrok
 from ultralytics import YOLO
 
 # ==========================================================
-# 1. CONFIGURAÇÕES DE CAMINHO E PASTAS
+# 1. CONFIGURAÇÕES DE CAMINHO E PERFORMANCE
 # ==========================================================
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 ROOT_DIR = os.path.dirname(BASE_DIR)
 
-CONFIG_PATH = os.path.join(ROOT_DIR, "config", "config.json")
-MODELO_PATH = os.path.join(ROOT_DIR, "models", "best.pt")
+CONFIG_PATH    = os.path.join(ROOT_DIR, "config", "config.json")
+MODELO_PATH    = os.path.join(ROOT_DIR, "models", "best.pt")
 PASTA_CAPTURES = os.path.join(ROOT_DIR, "capturas_violacao")
-LOG_PATH = os.path.join(ROOT_DIR, "relatorio_violacoes.csv") # <-- Banco de Dados
+LOG_PATH       = os.path.join(ROOT_DIR, "relatorio_violacoes.csv")
 
-if not os.path.exists(PASTA_CAPTURES):
-    os.makedirs(PASTA_CAPTURES)
+os.makedirs(PASTA_CAPTURES, exist_ok=True)
+
+# Força transporte TCP, buffer mínimo e decodificação rápida para DVR Intelbras.
+# probesize e analyzeduration reduzem o tempo de análise inicial do stream.
+# flags low_delay elimina buffers internos do FFmpeg, reduzindo latência.
+os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = (
+    "rtsp_transport;tcp"
+    "|buffer_size;0"
+    "|probesize;32"
+    "|analyzeduration;0"
+    "|fflags;nobuffer"
+    "|flags;low_delay"
+    "|framedrop;1"
+)
 
 # ==========================================================
-# 2. FUNÇÕES DE APOIO E LOG DE DADOS
+# 2. LEITOR DE FRAMES EM THREAD SEPARADA
+#    Desacopla a captura da câmera do loop de inferência,
+#    eliminando o gargalo de I/O e aumentando o FPS efetivo.
 # ==========================================================
-def registrar_violacao(tipo, conf, foto_nome):
-    """Grava a infração no arquivo CSV"""
+class CameraReader:
+    """
+    Captura frames continuamente em background thread.
+    Para webcam local aguarda inicialização antes de liberar o loop principal.
+    Para RTSP usa CAP_FFMPEG com transporte TCP e configurações de baixa latência.
+    """
+
+    def __init__(self, source, warmup_timeout: float = 10.0):
+        source_str = str(source)
+        self.is_local = source_str.isdigit()
+
+        if self.is_local:
+            print(f"  Abrindo webcam local (index {source_str})...")
+            self.cap = cv2.VideoCapture(int(source_str))
+            time.sleep(1.0)
+        else:
+            print(f"  Abrindo stream RTSP: {source_str}...")
+            self.cap = cv2.VideoCapture(source_str, cv2.CAP_FFMPEG)
+
+        # Buffer de 1 frame: sempre descarta frames antigos e exibe o mais recente.
+        # Fundamental para baixa latência em DVRs com alta compressão H.264.
+        self.cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
+
+        self.frame   = None
+        self.sucesso = False
+        self.lock    = threading.Lock()
+        self._stop   = threading.Event()
+
+        self._thread = threading.Thread(target=self._loop, daemon=True)
+        self._thread.start()
+
+        deadline = time.time() + warmup_timeout
+        while time.time() < deadline:
+            with self.lock:
+                if self.sucesso and self.frame is not None:
+                    break
+            time.sleep(0.05)
+
+    def _loop(self):
+        while not self._stop.is_set():
+            ok, frame = self.cap.read()
+            with self.lock:
+                self.sucesso = ok
+                if ok and frame is not None:
+                    self.frame = frame
+            if not ok:
+                time.sleep(0.05)
+
+    def ler(self):
+        with self.lock:
+            return self.sucesso, (self.frame.copy() if self.frame is not None else None)
+
+    def aberta(self):
+        return self.cap.isOpened()
+
+    def liberar(self):
+        self._stop.set()
+        self._thread.join(timeout=2)
+        self.cap.release()
+
+
+# ==========================================================
+# 3. FUNÇÕES DE APOIO
+# ==========================================================
+def registrar_violacao(tipo: str, conf: float, foto_nome: str):
+    """Acrescenta uma linha ao CSV de log, criando o cabeçalho se necessário."""
     file_exists = os.path.isfile(LOG_PATH)
     with open(LOG_PATH, mode='a', newline='', encoding='utf-8') as f:
         writer = csv.writer(f)
@@ -36,18 +115,29 @@ def registrar_violacao(tipo, conf, foto_nome):
         agora = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         writer.writerow([agora, tipo, f"{conf:.2f}", foto_nome])
 
-def mapear_ids_risco(config_camera, modelo_names):
-    """Mapeia o que o JSON pede para fiscalizar com as classes da IA"""
-    ids_perigo = []
+
+def carregar_config() -> dict:
+    """Lê o config.json do disco e retorna o dicionário de câmeras."""
+    with open(CONFIG_PATH, 'r') as f:
+        return json.load(f)["cameras"]
+
+
+def mapear_ids_risco(config_camera: dict, modelo_names: dict) -> list:
+    """
+    Retorna a lista de IDs de classe que representam infrações,
+    com base nas chaves 'require_*' marcadas como True no config da câmera.
+    Respeita exatamente o que está salvo no JSON — se False, não detecta.
+    """
     mapeamento = {
-        "require_helmet": "sem capacete",
-        "require_glasses": "sem oculos",
-        "require_gloves": "sem luvas",
-        "require_boots": "sem bota",
-        "require_ear_protection": "sem protetor auricular",
-        "require_mask": "sem mascara",
-        "require_vest": "sem colete"
+        "require_helmet":        "sem capacete",
+        "require_glasses":       "sem oculos",
+        "require_gloves":        "sem luvas",
+        "require_boots":         "sem bota",
+        "require_ear_protection":"sem protetor auricular",
+        "require_mask":          "sem mascara",
+        "require_vest":          "sem colete",
     }
+    ids_perigo = []
     for chave, exigido in config_camera.items():
         if exigido is True and chave in mapeamento:
             termo = mapeamento[chave]
@@ -56,129 +146,242 @@ def mapear_ids_risco(config_camera, modelo_names):
                     ids_perigo.append(id_cls)
     return ids_perigo
 
+
 # ==========================================================
-# 3. INICIALIZAÇÃO DO SISTEMA
+# 4. INICIALIZAÇÃO
 # ==========================================================
-# 3.1 Ngrok
 try:
     url_publica = ngrok.connect(8501, "http").public_url
-    print(f"\n🌍 DASHBOARD ONLINE: {url_publica}")
+    print(f"\n  Dashboard publico : {url_publica}")
     qr = qrcode.QRCode()
     qr.add_data(url_publica)
-    qr.print_ascii() 
-except Exception as e:
-    print(f"⚠️ Erro ao subir Ngrok: {e}. Verifique se a porta 8501 está livre.")
+    qr.print_ascii()
+except Exception:
+    print("  Aviso: ngrok offline. Dashboard disponivel apenas localmente.")
 
-# 3.2 IA
+print("\nCarregando modelo YOLO...")
 modelo = YOLO(MODELO_PATH)
-device = 0 if torch.cuda.is_available() else 'cpu'
-print(f"👁️ Engine de Visão Ativa em {device}...")
+
+USE_GPU = torch.cuda.is_available()
+device  = 0 if USE_GPU else "cpu"
+half    = USE_GPU
+
+if USE_GPU:
+    gpu_name = torch.cuda.get_device_name(0)
+    print(f"  Dispositivo : GPU — {gpu_name} (FP16 ativado)")
+else:
+    print("  Dispositivo : CPU (FP16 desativado)")
 
 # ==========================================================
-# 4. LOOP PRINCIPAL (COM RESILIÊNCIA ANTI-FALHA)
+# 5. LOOP PRINCIPAL
 # ==========================================================
-# Este 'while True' externo garante que se a câmera cair, o sistema recomeça
+ID_ATUAL   = "cam_0"
+MAP_TECLAS = {ord('1'): "cam_0", ord('2'): "cam_1", ord('3'): "cam_2"}
+
+CONFIG_RELOAD_INTERVAL = 30
+
+# ── Cria a janela UMA ÚNICA VEZ ───────────────────────────
+# WINDOW_NORMAL   : janela redimensionavel — o usuario maximiza pelo
+#                   botao da propria janela do Windows normalmente.
+# WINDOW_FREERATIO: desabilita o lock de aspect ratio do OpenCV,
+#                   eliminando a area cinza quando a resolucao da camera
+#                   (ex: 704x480 do DVR Intelbras) difere do monitor 16:9.
+# Criar aqui, fora de qualquer loop, evita janelas duplicadas ao
+# reconectar ou trocar de camera.
+WINDOW_NAME = "SafeGuard IA - Monitor"
+cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL | cv2.WINDOW_FREERATIO)
+
 while True:
     try:
-        # Carregamento Inicial do JSON
-        with open(CONFIG_PATH, 'r') as f:
-            data_config = json.load(f)
-            CAM_ESCOLHIDA = "camera_dvr" # Ou automatize a escolha
-            config = data_config[CAM_ESCOLHIDA]
+        if not os.path.exists(CONFIG_PATH):
+            print(f"  [ERRO] Config nao encontrada: {CONFIG_PATH}")
+            time.sleep(5)
+            continue
 
+        data_config = carregar_config()
+        config      = data_config[ID_ATUAL]
 
-        # ADICIONE ESTAS LINHAS AQUI:
-        print(f"DEBUG: Tentando abrir a fonte: {config['source']}")
-        cap = cv2.VideoCapture(config['source'])
-        
-        if not cap.isOpened():
-            print("❌ ERRO: Não foi possível conectar ao link RTSP. Verifique usuário e senha!")
-        else:
-            print("✅ Sucesso! Conexão estabelecida. Abrindo janela...")
+        cam = CameraReader(config["source"])
 
+        if not cam.aberta():
+            print(f"  [AVISO] Nao foi possivel abrir: {config['nome']}. Nova tentativa em 3s...")
+            cam.liberar()
+            time.sleep(3)
+            continue
+
+        print(f"\n  Monitorando: {config['nome']}")
         IDs_PERIGO = mapear_ids_risco(config, modelo.names)
-        cap = cv2.VideoCapture(config['source'])
-        cap.set(cv2.CAP_PROP_BUFFERSIZE, 1)
 
-        # Variáveis de Controle
-        frame_count = 0
-        tempo_ultima_foto = 0
-        COOLDOWN_FOTO = 30 
-        LIMITE_CONFIRMACAO = 60
-        contador_violacao = 0
-        contador_sequencial = 1
+        contador_violacao  = 0
+        tempo_ultima_foto  = 0.0
+        COOLDOWN_FOTO      = 30
+        LIMITE_CONFIRMACAO = 10
 
-        # Loop interno rodando enquanto a câmera estiver viva
-        while cap.isOpened():
-            sucesso, frame = cap.read()
-            if not sucesso:
-                print("⚠️ Falha na leitura do frame. Tentando reconectar a câmera...")
-                break # Quebra o loop interno para tentar ligar a câmera de novo
+        FALHAS_MAXIMAS  = 20
+        falhas_seguidas = 0
 
-            frame_count += 1
+        trocar_camera  = False
+        frame_contador = 0
 
-            # RECARGA DINÂMICA: Lê o JSON a cada 30 frames
-            if frame_count % 30 == 0:
+        # ── Persistência de boxes ──────────────────────────
+        # Guarda as últimas boxes detectadas e por quantos frames
+        # elas ainda devem ser exibidas mesmo sem nova detecção.
+        # Resolve o "piscar" causado pela confiança oscilando
+        # perto do threshold entre frames consecutivos.
+        PERSIST_FRAMES   = 6   # frames que a box fica visível após sumir
+        boxes_persistidas = {}  # { classe_id: (box_tensor, conf, frames_restantes) }
+
+        while cam.aberta():
+            sucesso, frame = cam.ler()
+
+            if not sucesso or frame is None:
+                falhas_seguidas += 1
+                if falhas_seguidas >= FALHAS_MAXIMAS:
+                    print(f"  [AVISO] {FALHAS_MAXIMAS} frames perdidos consecutivos. Reiniciando captura...")
+                    break
+                time.sleep(0.05)
+                continue
+
+            falhas_seguidas  = 0
+            frame_contador  += 1
+
+            # ── RECARREGA CONFIG EM TEMPO REAL ─────────────
+            # Relê o JSON a cada CONFIG_RELOAD_INTERVAL frames e
+            # recalcula IDs_PERIGO incondicionalmente — sem comparação —
+            # garantindo que qualquer mudança salva no painel web
+            # seja aplicada imediatamente, mesmo em edge cases.
+            if frame_contador % CONFIG_RELOAD_INTERVAL == 0:
                 try:
-                    with open(CONFIG_PATH, 'r') as f:
-                        config_refresh = json.load(f)[CAM_ESCOLHIDA]
-                        IDs_PERIGO = mapear_ids_risco(config_refresh, modelo.names)
-                except:
-                    pass
+                    data_config = carregar_config()
+                    config      = data_config.get(ID_ATUAL, config)
+                    IDs_PERIGO  = mapear_ids_risco(config, modelo.names)
+                except Exception as e:
+                    print(f"  [AVISO] Falha ao reler config: {e}")
 
-            # Inferência
-            results = modelo.predict(source=frame, conf=0.35, imgsz=960, device=device, verbose=False)
-            frame_anotado = results[0].plot()
-            
-            # --- NOVA LÓGICA DE RISCO (Extraindo nomes para o CSV) ---
-            classes_detectadas = results[0].boxes.cls.tolist()
-            confiancas = results[0].boxes.conf.tolist()
-            
-            infracoes_atuais = []
-            maior_conf = 0.0
+            # ── INFERÊNCIA ─────────────────────────────────
+            resultados = modelo.predict(
+                source=frame,
+                conf=0.25,      # limiar mais baixo: captura detecções fracas
+                iou=0.45,       # NMS padrão
+                imgsz=736,
+                device=device,
+                half=half,
+                stream=True,
+                verbose=False,
+            )
 
-            # Verifica qual classe perigosa foi detectada e pega o nome e confiança
-            for i, cls_id in enumerate(classes_detectadas):
-                if cls_id in IDs_PERIGO:
-                    nome_infracao = modelo.names[int(cls_id)]
-                    infracoes_atuais.append(nome_infracao)
-                    if confiancas[i] > maior_conf:
-                        maior_conf = confiancas[i]
+            result = next(iter(resultados))
+
+            classes_detectadas = result.boxes.cls.tolist()
+            confiancas         = result.boxes.conf.tolist()
+
+            # ── FILTRA BOXES: só plota classes que estão em IDs_PERIGO ──
+            if len(IDs_PERIGO) > 0 and result.boxes is not None and len(result.boxes) > 0:
+                mascara = [c in IDs_PERIGO for c in classes_detectadas]
+                if any(mascara):
+                    result.boxes = result.boxes[mascara]
+                else:
+                    result.boxes = result.boxes[0:0]
+            elif len(IDs_PERIGO) == 0 and result.boxes is not None:
+                result.boxes = result.boxes[0:0]
+
+            # ── PERSISTÊNCIA DE BOXES (anti-piscar) ────────
+            # Atualiza o dicionário com as detecções deste frame.
+            # Se uma classe foi detectada: renova os frames restantes.
+            # Se não foi: decrementa o contador e mantém a box visível
+            # até zerar, evitando o piscar por confiança oscilante.
+            classes_agora = set(result.boxes.cls.tolist()) if result.boxes is not None and len(result.boxes) > 0 else set()
+
+            # Renova boxes detectadas neste frame
+            if result.boxes is not None and len(result.boxes) > 0:
+                for i, cls_id in enumerate(result.boxes.cls.tolist()):
+                    boxes_persistidas[cls_id] = (result.boxes[i], result.boxes.conf[i].item(), PERSIST_FRAMES)
+
+            # Decrementa boxes que não foram detectadas neste frame
+            for cls_id in list(boxes_persistidas.keys()):
+                if cls_id not in classes_agora:
+                    box_obj, conf_val, restantes = boxes_persistidas[cls_id]
+                    if restantes > 1:
+                        boxes_persistidas[cls_id] = (box_obj, conf_val, restantes - 1)
+                    else:
+                        del boxes_persistidas[cls_id]
+
+            # Reconstrói result.boxes com boxes persistidas (detecções atuais + fantasmas)
+            if boxes_persistidas and result.boxes is not None:
+                ids_so_fantasma = set(boxes_persistidas.keys()) - classes_agora
+                if ids_so_fantasma:
+                    boxes_extra = [boxes_persistidas[c][0] for c in ids_so_fantasma]
+                    try:
+                        result.boxes.data = torch.cat([
+                            result.boxes.data,
+                            torch.cat([b.data for b in boxes_extra], dim=0)
+                        ], dim=0)
+                    except Exception:
+                        pass  # se falhar, exibe só as detecções normais
+
+            frame_anotado = result.plot()
+
+            # Só considera infração se o EPI estiver ativo no config atual
+            infracoes_atuais = [
+                modelo.names[int(c)]
+                for c in classes_detectadas
+                if c in IDs_PERIGO
+            ]
 
             detecao_perigo = len(infracoes_atuais) > 0
+            agora          = time.time()
 
-            # Snapshot com Antifalha, Cooldown e Gravação no CSV
-            agora = time.time()
             if detecao_perigo:
                 contador_violacao += 1
-                if contador_violacao >= LIMITE_CONFIRMACAO and (agora - tempo_ultima_foto) > COOLDOWN_FOTO:
+                if (contador_violacao >= LIMITE_CONFIRMACAO
+                        and (agora - tempo_ultima_foto) > COOLDOWN_FOTO):
                     data_hora = time.strftime("%Y%m%d_%H%M%S")
-                    nome_arq = f"{contador_sequencial:03d}_{data_hora}.jpg"
+                    nome_arq  = f"V_{ID_ATUAL}_{data_hora}.jpg"
                     cv2.imwrite(os.path.join(PASTA_CAPTURES, nome_arq), frame_anotado)
-                    
-                    # Salva no Banco de Dados (CSV)
-                    nomes_infracao_str = ", ".join(set(infracoes_atuais))
-                    registrar_violacao(nomes_infracao_str, maior_conf, nome_arq)
-                    
-                    print(f"📸 VIOLAÇÃO SALVA E REGISTRADA: {nome_arq}")
+
+                    maior_conf = max(confiancas) if confiancas else 0.0
+                    registrar_violacao(", ".join(set(infracoes_atuais)), maior_conf, nome_arq)
+                    print(f"  [ALERTA] Violacao registrada: {nome_arq}")
                     tempo_ultima_foto = agora
-                    contador_sequencial += 1
             else:
                 contador_violacao = 0
 
-            # Interface Visual
-            status_txt = "RISCO!" if detecao_perigo else "SEGURO"
-            cor_txt = (0, 0, 255) if detecao_perigo else (0, 255, 0)
-            cv2.putText(frame_anotado, f"STATUS: {status_txt}", (20, 50), 
-                        cv2.FONT_HERSHEY_SIMPLEX, 1.2, cor_txt, 3)
+            # ── STATUS OVERLAY ─────────────────────────────
+            cor_status = (0, 0, 220) if detecao_perigo else (0, 200, 80)
+            txt_status = (
+                f"SafeGuard IA  |  {config['nome']}  |  "
+                f"{'PERIGO' if detecao_perigo else 'OK'}"
+            )
+            cv2.putText(
+                frame_anotado, txt_status,
+                (15, 38),
+                cv2.FONT_HERSHEY_SIMPLEX, 0.72,
+                cor_status, 2, cv2.LINE_AA
+            )
 
-            cv2.imshow('SafeGuard IA - Engine Monitor', frame_anotado)
+            cv2.imshow(WINDOW_NAME, frame_anotado)
 
-            if cv2.waitKey(1) & 0xFF == ord('q'): 
-                cap.release()
+            key = cv2.waitKey(1) & 0xFF
+
+            if key == ord('q'):
+                cam.liberar()
                 cv2.destroyAllWindows()
-                exit() # Sai completamente do programa
+                exit(0)
+
+            if key in MAP_TECLAS:
+                nova_id = MAP_TECLAS[key]
+                if nova_id in data_config:
+                    print(f"  Alternando para: {data_config[nova_id]['nome']}")
+                    ID_ATUAL = nova_id
+                    trocar_camera = True
+                    break
+
+        cam.liberar()
+
+        if not trocar_camera:
+            print("  Conexao perdida. Reconectando em 3s...")
+            time.sleep(3)
 
     except Exception as e:
-        print(f"🔥 Erro crítico na execução: {e}. Reiniciando sistema em 5 segundos...")
-        time.sleep(5)
+        print(f"  [ERRO] {type(e).__name__}: {e}")
+        time.sleep(3)
