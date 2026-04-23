@@ -8,11 +8,9 @@ CONFIG_PATH = os.path.join(BASE_DIR, "..", "config", "config.json")
 with open(CONFIG_PATH, 'r') as f:
     config = json.load(f)
 
-# Pega a primeira câmera que aparecer no arquivo
 primeira_cam = list(config.keys())[3]
 dados_da_cam = config[primeira_cam]
 
-# Tenta pegar 'source', se não tiver, tenta 'ip'
 source = dados_da_cam.get('source', dados_da_cam.get('ip'))
 
 if source is None:

@@ -37,6 +37,51 @@ os.environ["OPENCV_FFMPEG_CAPTURE_OPTIONS"] = (
 )
 
 # ==========================================================
+# PIPELINES DE MELHORIA DE IMAGEM
+# ==========================================================
+# Aplicados ANTES da inferência — o YOLO vê a imagem melhorada,
+# aumentando a detecção de objetos pequenos (óculos, plugs).
+#
+# Pipeline RTSP (~30 ms/frame em CPU 1280x720):
+#   1. medianBlur(3)  — remove ruído "sal-e-pimenta" do H.264 (~0.5ms).
+#                       50x mais rápido que fastNlMeans, mesmo efeito.
+#   2. CLAHE YUV(2.5) — contraste adaptativo local no canal Y. Não
+#                       distorce cores, revela detalhes em sombras.
+#   3. Unsharp mask   — realça bordas sem artefatos de ringing.
+#                       Melhora leitura de óculos e texto em capacetes.
+#
+# Pipeline Webcam (~30 ms/frame em CPU 1280x720):
+#   1. Bilateral d=5  — suaviza ruído Gaussiano preservando bordas.
+#   2. Unsharp mask   — nitidez final.
+#
+# Ajuste:
+#   CLAHE_CLIP  : 2.5 padrão | 3.5 se câmera escura | 1.5 se estourar
+#   UNSHARP_STR : 0.5 padrão | 0.7 mais nitidez | 0.3 mais suavidade
+# ==========================================================
+import numpy as np
+
+CLAHE_CLIP  = 2.5
+UNSHARP_STR = 0.5
+
+_clahe_rtsp = cv2.createCLAHE(clipLimit=CLAHE_CLIP, tileGridSize=(8, 8))
+
+def melhorar_frame_rtsp(frame: np.ndarray) -> np.ndarray:
+    # 1. Remove ruído impulsivo de compressão H.264
+    out = cv2.medianBlur(frame, 3)
+    # 2. CLAHE no canal Y (luminância) — recupera contraste perdido
+    yuv = cv2.cvtColor(out, cv2.COLOR_BGR2YUV)
+    yuv[:, :, 0] = _clahe_rtsp.apply(yuv[:, :, 0])
+    out = cv2.cvtColor(yuv, cv2.COLOR_YUV2BGR)
+    # 3. Unsharp mask — realça bordas reais sem ringing
+    blur = cv2.GaussianBlur(out, (0, 0), sigmaX=1.5)
+    return cv2.addWeighted(out, 1.0 + UNSHARP_STR, blur, -UNSHARP_STR, 0)
+
+def melhorar_frame_webcam(frame: np.ndarray) -> np.ndarray:
+    out = cv2.bilateralFilter(frame, d=5, sigmaColor=25, sigmaSpace=15)
+    blur = cv2.GaussianBlur(out, (0, 0), sigmaX=1.5)
+    return cv2.addWeighted(out, 1.0 + UNSHARP_STR, blur, -UNSHARP_STR, 0)
+
+# ==========================================================
 # 2. LEITOR DE FRAMES EM THREAD SEPARADA
 #    Desacopla a captura da câmera do loop de inferência,
 #    eliminando o gargalo de I/O e aumentando o FPS efetivo.
@@ -124,9 +169,8 @@ def carregar_config() -> dict:
 
 def mapear_ids_risco(config_camera: dict, modelo_names: dict) -> list:
     """
-    Retorna a lista de IDs de classe que representam infrações,
-    com base nas chaves 'require_*' marcadas como True no config da câmera.
-    Respeita exatamente o que está salvo no JSON — se False, não detecta.
+    Retorna IDs das classes de INFRAÇÃO ativas (sem capacete, sem óculos...).
+    Usado para lógica de alerta e registro de violação.
     """
     mapeamento = {
         "require_helmet":        "sem capacete",
@@ -145,6 +189,34 @@ def mapear_ids_risco(config_camera: dict, modelo_names: dict) -> list:
                 if termo in nome_cls.lower():
                     ids_perigo.append(id_cls)
     return ids_perigo
+
+
+def mapear_ids_ok(config_camera: dict, modelo_names: dict) -> list:
+    """
+    Retorna IDs das classes de EPI PRESENTE ativas (capacete, óculos...).
+    Usado apenas para exibição visual com caixa verde — não afeta alertas.
+    Só inclui EPIs que estão marcados como obrigatórios no config da câmera:
+    se require_helmet=False, o capacete não aparece mesmo quando detectado.
+    """
+    mapeamento_ok = {
+        "require_helmet":         "capacete",
+        "require_glasses":        "oculos",
+        "require_gloves":         "luvas",
+        "require_boots":          "bota",
+        "require_ear_protection": "protetor auricular",
+        "require_mask":           "mascara",
+        "require_vest":           "colete",
+    }
+    ids_ok = []
+    for chave, exigido in config_camera.items():
+        if exigido is True and chave in mapeamento_ok:
+            termo = mapeamento_ok[chave]
+            for id_cls, nome_cls in modelo_names.items():
+                nome = nome_cls.lower()
+                # Garante que é a classe positiva: contém o termo mas NÃO contém "sem "
+                if termo in nome and "sem " not in nome:
+                    ids_ok.append(id_cls)
+    return ids_ok
 
 
 # ==========================================================
@@ -211,6 +283,7 @@ while True:
 
         print(f"\n  Monitorando: {config['nome']}")
         IDs_PERIGO = mapear_ids_risco(config, modelo.names)
+        IDs_OK     = mapear_ids_ok(config, modelo.names)
 
         contador_violacao  = 0
         tempo_ultima_foto  = 0.0
@@ -245,6 +318,15 @@ while True:
             falhas_seguidas  = 0
             frame_contador  += 1
 
+            # ── MELHORIA DE IMAGEM POR TIPO DE FONTE ───────
+            # O frame melhorado vai tanto para a inferência quanto para a exibição.
+            # O YOLO vê a imagem com mais contraste e nitidez — melhora a
+            # detecção de objetos pequenos como óculos e protetor auricular.
+            if cam.is_local:
+                frame_proc = melhorar_frame_webcam(frame)
+            else:
+                frame_proc = melhorar_frame_rtsp(frame)
+
             # ── RECARREGA CONFIG EM TEMPO REAL ─────────────
             # Relê o JSON a cada CONFIG_RELOAD_INTERVAL frames e
             # recalcula IDs_PERIGO incondicionalmente — sem comparação —
@@ -255,15 +337,22 @@ while True:
                     data_config = carregar_config()
                     config      = data_config.get(ID_ATUAL, config)
                     IDs_PERIGO  = mapear_ids_risco(config, modelo.names)
+                    IDs_OK      = mapear_ids_ok(config, modelo.names)
                 except Exception as e:
                     print(f"  [AVISO] Falha ao reler config: {e}")
 
             # ── INFERÊNCIA ─────────────────────────────────
+            # conf=0.15: captura óculos e protetores auriculares que antes
+            #            eram descartados com conf 0.15–0.24.
+            # imgsz=960 para RTSP: grid maior detecta objetos pequenos
+            #            em câmeras de segurança com mais precisão.
+            # imgsz=736 para webcam: já está em 720p, não precisa de grid maior.
+            imgsz_atual = 736 if cam.is_local else 960
             resultados = modelo.predict(
-                source=frame,
-                conf=0.25,      # limiar mais baixo: captura detecções fracas
-                iou=0.45,       # NMS padrão
-                imgsz=736,
+                source=frame_proc,   # frame com CLAHE + unsharp aplicados
+                conf=0.15,
+                iou=0.45,
+                imgsz=imgsz_atual,
                 device=device,
                 half=half,
                 stream=True,
@@ -272,32 +361,46 @@ while True:
 
             result = next(iter(resultados))
 
-            classes_detectadas = result.boxes.cls.tolist()
-            confiancas         = result.boxes.conf.tolist()
+            classes_detectadas = result.boxes.cls.tolist() if result.boxes is not None else []
+            confiancas         = result.boxes.conf.tolist() if result.boxes is not None else []
 
-            # ── FILTRA BOXES: só plota classes que estão em IDs_PERIGO ──
-            if len(IDs_PERIGO) > 0 and result.boxes is not None and len(result.boxes) > 0:
-                mascara = [c in IDs_PERIGO for c in classes_detectadas]
-                if any(mascara):
-                    result.boxes = result.boxes[mascara]
-                else:
-                    result.boxes = result.boxes[0:0]
-            elif len(IDs_PERIGO) == 0 and result.boxes is not None:
-                result.boxes = result.boxes[0:0]
+            # ── FILTRAGEM POR CONFIANÇA POR CLASSE ─────────
+            # conf=0.15 global captura candidatos fracos, mas precisamos
+            # filtrar individualmente para não mostrar falsos positivos:
+            #   - Classes "sem X" (infrações): mínimo 0.30 — exige confiança razoável
+            #   - Classes "X presente" (EPIs OK): mínimo 0.40 — mais exigente para
+            #     evitar mostrar verde onde não tem EPI de fato
+            #   - Classes sem relevância (pessoa, etc.): removidas
+            CONF_INFRACOES = 0.30
+            CONF_EPIS_OK   = 0.40
+
+            IDs_RELEVANTES = set(int(x) for x in IDs_PERIGO + IDs_OK)
+
+            if result.boxes is not None and len(result.boxes) > 0:
+                mascara_final = []
+                for i in range(len(result.boxes)):
+                    cls_id   = int(result.boxes.cls[i].item())
+                    conf_val = result.boxes.conf[i].item()
+                    if cls_id not in IDs_RELEVANTES:
+                        mascara_final.append(False)
+                    elif cls_id in [int(x) for x in IDs_PERIGO]:
+                        mascara_final.append(conf_val >= CONF_INFRACOES)
+                    else:
+                        mascara_final.append(conf_val >= CONF_EPIS_OK)
+                result.boxes = result.boxes[mascara_final]
+
+            # Recalcula após filtragem
+            classes_detectadas = result.boxes.cls.tolist() if result.boxes is not None and len(result.boxes) > 0 else []
+            confiancas         = result.boxes.conf.tolist() if result.boxes is not None and len(result.boxes) > 0 else []
 
             # ── PERSISTÊNCIA DE BOXES (anti-piscar) ────────
-            # Atualiza o dicionário com as detecções deste frame.
-            # Se uma classe foi detectada: renova os frames restantes.
-            # Se não foi: decrementa o contador e mantém a box visível
-            # até zerar, evitando o piscar por confiança oscilante.
-            classes_agora = set(result.boxes.cls.tolist()) if result.boxes is not None and len(result.boxes) > 0 else set()
+            # Chaves como int para evitar bug de comparação float vs int
+            classes_agora = set(int(c) for c in classes_detectadas)
 
-            # Renova boxes detectadas neste frame
             if result.boxes is not None and len(result.boxes) > 0:
                 for i, cls_id in enumerate(result.boxes.cls.tolist()):
-                    boxes_persistidas[cls_id] = (result.boxes[i], result.boxes.conf[i].item(), PERSIST_FRAMES)
+                    boxes_persistidas[int(cls_id)] = (result.boxes[i], result.boxes.conf[i].item(), PERSIST_FRAMES)
 
-            # Decrementa boxes que não foram detectadas neste frame
             for cls_id in list(boxes_persistidas.keys()):
                 if cls_id not in classes_agora:
                     box_obj, conf_val, restantes = boxes_persistidas[cls_id]
@@ -306,7 +409,6 @@ while True:
                     else:
                         del boxes_persistidas[cls_id]
 
-            # Reconstrói result.boxes com boxes persistidas (detecções atuais + fantasmas)
             if boxes_persistidas and result.boxes is not None:
                 ids_so_fantasma = set(boxes_persistidas.keys()) - classes_agora
                 if ids_so_fantasma:
@@ -317,9 +419,11 @@ while True:
                             torch.cat([b.data for b in boxes_extra], dim=0)
                         ], dim=0)
                     except Exception:
-                        pass  # se falhar, exibe só as detecções normais
+                        pass
 
-            frame_anotado = result.plot()
+            # result.plot() usa as cores padrão definidas pelo YOLO no treino
+            # (cada classe tem sua cor automática — azul, verde, laranja etc.)
+            frame_anotado = result.plot(img=frame_proc)
 
             # Só considera infração se o EPI estiver ativo no config atual
             infracoes_atuais = [

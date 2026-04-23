@@ -40,3 +40,322 @@ Data_Hora,Infracao,Confianca,Arquivo_Foto
 2026-04-20 07:05:42,sem capacete,0.67,V_cam_0_20260420_070542.jpg
 2026-04-20 07:05:52,"sem protetor auricular, sem capacete",0.36,V_cam_1_20260420_070552.jpg
 2026-04-20 07:06:05,sem protetor auricular,0.45,V_cam_2_20260420_070605.jpg
+2026-04-22 00:00:04,sem capacete,0.67,V_cam_0_20260422_000004.jpg
+2026-04-22 00:00:34,sem capacete,0.54,V_cam_0_20260422_000034.jpg
+2026-04-22 00:01:04,sem capacete,0.70,V_cam_0_20260422_000104.jpg
+2026-04-22 00:01:34,sem capacete,0.61,V_cam_0_20260422_000134.jpg
+2026-04-22 00:02:04,"sem protetor auricular, sem oculos",0.64,V_cam_0_20260422_000204.jpg
+2026-04-22 00:02:34,sem capacete,0.70,V_cam_0_20260422_000234.jpg
+2026-04-22 00:03:04,"sem capacete, sem protetor auricular, sem oculos",0.60,V_cam_0_20260422_000304.jpg
+2026-04-22 00:03:35,sem capacete,0.67,V_cam_0_20260422_000335.jpg
+2026-04-22 00:06:22,sem capacete,0.79,V_cam_0_20260422_000622.jpg
+2026-04-22 00:08:11,sem capacete,0.67,V_cam_2_20260422_000811.jpg
+2026-04-22 00:08:41,"sem protetor auricular, sem capacete",0.43,V_cam_2_20260422_000841.jpg
+2026-04-22 00:10:40,sem capacete,0.57,V_cam_0_20260422_001040.jpg
+2026-04-22 00:11:10,sem capacete,0.65,V_cam_0_20260422_001110.jpg
+2026-04-22 00:11:41,sem capacete,0.70,V_cam_0_20260422_001140.jpg
+2026-04-22 00:12:11,sem capacete,0.60,V_cam_0_20260422_001211.jpg
+2026-04-22 00:12:41,sem capacete,0.54,V_cam_0_20260422_001241.jpg
+2026-04-22 00:13:13,sem oculos,0.32,V_cam_0_20260422_001313.jpg
+2026-04-22 00:19:08,sem capacete,0.59,V_cam_0_20260422_001908.jpg
+2026-04-22 00:19:42,"sem protetor auricular, sem capacete",0.45,V_cam_0_20260422_001942.jpg
+2026-04-22 00:20:12,"sem protetor auricular, sem capacete",0.63,V_cam_0_20260422_002012.jpg
+2026-04-22 00:20:43,"sem protetor auricular, sem capacete",0.46,V_cam_0_20260422_002043.jpg
+2026-04-22 00:23:06,"sem capacete, sem protetor auricular",0.56,V_cam_0_20260422_002304.jpg
+2026-04-22 00:23:35,"sem luvas, sem capacete, sem protetor auricular",0.67,V_cam_0_20260422_002335.jpg
+2026-04-22 00:24:05,sem capacete,0.62,V_cam_0_20260422_002405.jpg
+2026-04-22 00:24:36,sem protetor auricular,0.86,V_cam_0_20260422_002436.jpg
+2026-04-22 00:26:22,"sem capacete, sem protetor auricular",0.52,V_cam_0_20260422_002621.jpg
+2026-04-22 00:26:52,sem protetor auricular,0.71,V_cam_0_20260422_002652.jpg
+2026-04-22 00:27:17,"sem capacete, sem protetor auricular",0.31,V_cam_2_20260422_002717.jpg
+2026-04-22 00:27:47,sem protetor auricular,0.46,V_cam_2_20260422_002747.jpg
+2026-04-22 00:31:00,sem protetor auricular,0.23,V_cam_1_20260422_003100.jpg
+2026-04-22 00:31:09,sem protetor auricular,0.52,V_cam_2_20260422_003109.jpg
+2026-04-22 00:32:57,"sem protetor auricular, sem capacete",0.56,V_cam_0_20260422_003257.jpg
+2026-04-22 00:33:03,"sem protetor auricular, sem oculos",0.67,V_cam_1_20260422_003303.jpg
+2026-04-22 00:33:18,sem protetor auricular,0.48,V_cam_2_20260422_003318.jpg
+2026-04-22 00:33:36,"sem protetor auricular, sem oculos",0.46,V_cam_1_20260422_003336.jpg
+2026-04-22 00:39:36,"sem protetor auricular, sem capacete",0.74,V_cam_0_20260422_003936.jpg
+2026-04-22 00:40:10,"sem protetor auricular, sem oculos",0.57,V_cam_2_20260422_004010.jpg
+2026-04-22 00:40:43,"sem protetor auricular, sem capacete, sem oculos",0.64,V_cam_2_20260422_004042.jpg
+2026-04-22 00:45:15,"sem capacete, sem protetor auricular",0.74,V_cam_0_20260422_004515.jpg
+2026-04-22 00:45:45,"sem capacete, sem luvas",0.82,V_cam_0_20260422_004545.jpg
+2026-04-22 00:46:26,sem protetor auricular,0.16,V_cam_1_20260422_004626.jpg
+2026-04-22 00:46:45,sem protetor auricular,0.51,V_cam_2_20260422_004645.jpg
+2026-04-22 00:47:13,"sem capacete, sem protetor auricular",0.55,V_cam_0_20260422_004713.jpg
+2026-04-22 00:47:43,"sem capacete, sem oculos",0.46,V_cam_0_20260422_004743.jpg
+2026-04-22 00:48:14,sem capacete,0.32,V_cam_0_20260422_004814.jpg
+2026-04-22 00:48:44,"sem capacete, sem protetor auricular",0.80,V_cam_0_20260422_004844.jpg
+2026-04-22 00:49:15,"sem capacete, sem protetor auricular",0.47,V_cam_0_20260422_004915.jpg
+2026-04-22 00:49:37,"sem capacete, sem protetor auricular, sem oculos",0.70,V_cam_2_20260422_004937.jpg
+2026-04-22 00:50:07,"sem capacete, sem luvas, sem protetor auricular",0.71,V_cam_2_20260422_005007.jpg
+2026-04-22 00:52:30,"sem protetor auricular, sem capacete",0.51,V_cam_0_20260422_005230.jpg
+2026-04-22 00:53:01,"sem protetor auricular, sem capacete",0.82,V_cam_0_20260422_005301.jpg
+2026-04-22 00:53:19,"sem protetor auricular, sem oculos, sem capacete",0.65,V_cam_2_20260422_005319.jpg
+2026-04-22 00:53:58,sem oculos,0.67,V_cam_1_20260422_005358.jpg
+2026-04-22 00:54:29,sem oculos,0.52,V_cam_1_20260422_005429.jpg
+2026-04-22 00:55:41,sem protetor auricular,0.64,V_cam_1_20260422_005541.jpg
+2026-04-22 00:56:29,"sem protetor auricular, sem luvas",0.79,V_cam_1_20260422_005629.jpg
+2026-04-22 00:57:03,"sem protetor auricular, sem luvas",0.71,V_cam_1_20260422_005703.jpg
+2026-04-22 01:05:00,"sem protetor auricular, sem capacete",0.62,V_cam_0_20260422_010500.jpg
+2026-04-22 01:05:30,sem capacete,0.50,V_cam_0_20260422_010530.jpg
+2026-04-22 01:06:01,"sem protetor auricular, sem capacete",0.49,V_cam_0_20260422_010601.jpg
+2026-04-22 01:06:30,sem protetor auricular,0.50,V_cam_1_20260422_010630.jpg
+2026-04-22 01:06:43,sem capacete,0.46,V_cam_2_20260422_010643.jpg
+2026-04-22 01:06:50,"sem protetor auricular, sem capacete",0.56,V_cam_0_20260422_010650.jpg
+2026-04-23 00:29:07,"sem capacete, sem protetor auricular",0.85,V_cam_0_20260423_002907.jpg
+2026-04-23 00:29:30,"sem protetor auricular, sem capacete",0.84,V_cam_1_20260423_002930.jpg
+2026-04-23 00:32:49,"sem capacete, sem protetor auricular",0.86,V_cam_0_20260423_003248.jpg
+2026-04-23 00:33:19,sem capacete,0.83,V_cam_0_20260423_003318.jpg
+2026-04-23 00:33:49,"sem protetor auricular, sem capacete",0.79,V_cam_0_20260423_003349.jpg
+2026-04-23 00:34:19,"sem capacete, sem luvas, sem protetor auricular",0.86,V_cam_0_20260423_003419.jpg
+2026-04-23 00:38:29,sem capacete,0.86,V_cam_0_20260423_003829.jpg
+2026-04-23 00:38:59,sem capacete,0.58,V_cam_0_20260423_003859.jpg
+2026-04-23 00:39:29,"sem protetor auricular, sem capacete, sem luvas",0.85,V_cam_0_20260423_003929.jpg
+2026-04-23 00:39:59,"sem protetor auricular, sem capacete, sem luvas",0.87,V_cam_0_20260423_003959.jpg
+2026-04-23 00:40:29,"sem capacete, sem luvas, sem protetor auricular",0.85,V_cam_0_20260423_004029.jpg
+2026-04-23 00:40:41,sem protetor auricular,0.81,V_cam_1_20260423_004041.jpg
+2026-04-23 00:41:11,"sem capacete, sem protetor auricular",0.85,V_cam_1_20260423_004111.jpg
+2026-04-23 00:41:41,sem luvas,0.78,V_cam_1_20260423_004141.jpg
+2026-04-23 00:42:27,"sem capacete, sem luvas",0.81,V_cam_1_20260423_004227.jpg
+2026-04-23 00:42:59,sem capacete,0.88,V_cam_1_20260423_004259.jpg
+2026-04-23 00:43:33,"sem capacete, sem luvas",0.84,V_cam_1_20260423_004332.jpg
+2026-04-23 00:44:03,sem capacete,0.78,V_cam_1_20260423_004403.jpg
+2026-04-23 00:44:40,sem capacete,0.81,V_cam_1_20260423_004440.jpg
+2026-04-23 00:45:10,sem capacete,0.88,V_cam_1_20260423_004510.jpg
+2026-04-23 00:45:41,sem capacete,0.80,V_cam_1_20260423_004541.jpg
+2026-04-23 00:46:24,sem luvas,0.81,V_cam_1_20260423_004624.jpg
+2026-04-23 00:47:13,sem luvas,0.83,V_cam_1_20260423_004713.jpg
+2026-04-23 00:48:28,"sem luvas, sem protetor auricular, sem capacete",0.84,V_cam_0_20260423_004828.jpg
+2026-04-23 00:49:22,"sem protetor auricular, sem capacete",0.83,V_cam_0_20260423_004922.jpg
+2026-04-23 00:49:52,"sem luvas, sem protetor auricular, sem capacete",0.86,V_cam_0_20260423_004952.jpg
+2026-04-23 00:50:36,"sem protetor auricular, sem capacete",0.82,V_cam_0_20260423_005036.jpg
+2026-04-23 00:51:06,"sem protetor auricular, sem capacete",0.81,V_cam_0_20260423_005106.jpg
+2026-04-23 00:51:37,"sem protetor auricular, sem capacete",0.79,V_cam_0_20260423_005137.jpg
+2026-04-23 00:52:07,"sem luvas, sem protetor auricular, sem capacete",0.88,V_cam_0_20260423_005207.jpg
+2026-04-23 00:52:37,sem capacete,0.73,V_cam_0_20260423_005237.jpg
+2026-04-23 00:53:07,"sem protetor auricular, sem capacete",0.85,V_cam_0_20260423_005307.jpg
+2026-04-23 00:53:43,sem capacete,0.76,V_cam_0_20260423_005343.jpg
+2026-04-23 00:54:13,"sem protetor auricular, sem capacete",0.60,V_cam_0_20260423_005413.jpg
+2026-04-23 00:54:43,"sem protetor auricular, sem capacete",0.61,V_cam_0_20260423_005443.jpg
+2026-04-23 00:55:13,"sem protetor auricular, sem capacete",0.55,V_cam_0_20260423_005513.jpg
+2026-04-23 00:55:43,sem capacete,0.81,V_cam_0_20260423_005543.jpg
+2026-04-23 00:56:16,sem capacete,0.48,V_cam_0_20260423_005616.jpg
+2026-04-23 00:57:47,sem luvas,0.88,V_cam_0_20260423_005747.jpg
+2026-04-23 00:58:19,sem luvas,0.86,V_cam_0_20260423_005819.jpg
+2026-04-23 00:58:57,sem luvas,0.80,V_cam_0_20260423_005857.jpg
+2026-04-23 00:59:34,sem luvas,0.85,V_cam_0_20260423_005934.jpg
+2026-04-23 01:00:20,sem luvas,0.69,V_cam_0_20260423_010020.jpg
+2026-04-23 01:00:28,sem luvas,0.60,V_cam_0_20260423_010028.jpg
+2026-04-23 01:00:33,sem luvas,0.59,V_cam_1_20260423_010033.jpg
+2026-04-23 01:00:50,sem luvas,0.44,V_cam_0_20260423_010050.jpg
+2026-04-23 01:05:34,sem capacete,0.77,V_cam_0_20260423_010534.jpg
+2026-04-23 01:06:05,"sem luvas, sem capacete",0.44,V_cam_0_20260423_010605.jpg
+2026-04-23 01:06:35,sem capacete,0.74,V_cam_0_20260423_010635.jpg
+2026-04-23 01:07:06,"sem luvas, sem capacete",0.65,V_cam_0_20260423_010706.jpg
+2026-04-23 01:07:41,"sem luvas, sem capacete",0.84,V_cam_0_20260423_010741.jpg
+2026-04-23 01:08:11,sem luvas,0.83,V_cam_0_20260423_010811.jpg
+2026-04-23 01:08:41,sem luvas,0.81,V_cam_0_20260423_010841.jpg
+2026-04-23 01:09:11,sem luvas,0.73,V_cam_0_20260423_010911.jpg
+2026-04-23 01:09:41,"sem luvas, sem capacete",0.78,V_cam_0_20260423_010941.jpg
+2026-04-23 01:10:05,sem luvas,0.64,V_cam_1_20260423_011005.jpg
+2026-04-23 01:10:35,sem luvas,0.62,V_cam_1_20260423_011035.jpg
+2026-04-23 01:11:54,sem luvas,0.54,V_cam_0_20260423_011154.jpg
+2026-04-23 01:14:33,sem capacete,0.42,V_cam_0_20260423_011433.jpg
+2026-04-23 01:15:06,sem capacete,0.43,V_cam_0_20260423_011506.jpg
+2026-04-23 01:18:45,sem capacete,0.33,V_cam_0_20260423_011845.jpg
+2026-04-23 01:19:52,sem capacete,0.63,V_cam_0_20260423_011952.jpg
+2026-04-23 01:20:23,"sem luvas, sem protetor auricular, sem capacete",0.71,V_cam_0_20260423_012023.jpg
+2026-04-23 01:20:53,sem protetor auricular,0.64,V_cam_0_20260423_012053.jpg
+2026-04-23 01:21:25,sem luvas,0.68,V_cam_0_20260423_012125.jpg
+2026-04-23 01:22:01,sem luvas,0.62,V_cam_0_20260423_012201.jpg
+2026-04-23 01:22:31,sem capacete,0.83,V_cam_0_20260423_012231.jpg
+2026-04-23 01:23:01,sem capacete,0.71,V_cam_0_20260423_012301.jpg
+2026-04-23 01:23:31,"sem luvas, sem capacete",0.75,V_cam_0_20260423_012331.jpg
+2026-04-23 01:24:01,"sem luvas, sem capacete",0.60,V_cam_0_20260423_012401.jpg
+2026-04-23 01:24:31,"sem protetor auricular, sem capacete",0.52,V_cam_0_20260423_012431.jpg
+2026-04-23 01:25:02,sem capacete,0.60,V_cam_0_20260423_012502.jpg
+2026-04-23 01:25:37,sem luvas,0.58,V_cam_0_20260423_012537.jpg
+2026-04-23 01:26:09,sem luvas,0.42,V_cam_0_20260423_012609.jpg
+2026-04-23 01:26:45,sem protetor auricular,0.65,V_cam_0_20260423_012645.jpg
+2026-04-23 01:27:20,sem bota,0.47,V_cam_0_20260423_012719.jpg
+2026-04-23 01:27:50,sem capacete,0.42,V_cam_0_20260423_012750.jpg
+2026-04-23 01:33:30,sem capacete,0.32,V_cam_0_20260423_013330.jpg
+2026-04-23 01:35:20,sem luvas,0.84,V_cam_0_20260423_013520.jpg
+2026-04-23 01:36:08,"sem luvas, sem capacete",0.41,V_cam_0_20260423_013608.jpg
+2026-04-23 01:36:42,sem capacete,0.81,V_cam_0_20260423_013642.jpg
+2026-04-23 01:37:15,"sem luvas, sem capacete",0.70,V_cam_0_20260423_013715.jpg
+2026-04-23 01:37:49,"sem luvas, sem capacete",0.75,V_cam_0_20260423_013749.jpg
+2026-04-23 01:38:19,sem luvas,0.88,V_cam_0_20260423_013819.jpg
+2026-04-23 01:38:49,"sem luvas, sem capacete",0.50,V_cam_0_20260423_013849.jpg
+2026-04-23 01:39:27,sem capacete,0.62,V_cam_0_20260423_013927.jpg
+2026-04-23 01:40:35,"sem luvas, sem capacete",0.59,V_cam_0_20260423_014035.jpg
+2026-04-23 01:41:30,sem luvas,0.61,V_cam_1_20260423_014130.jpg
+2026-04-23 01:44:43,sem luvas,0.66,V_cam_0_20260423_014443.jpg
+2026-04-23 01:45:16,sem luvas,0.70,V_cam_0_20260423_014516.jpg
+2026-04-23 01:46:11,sem luvas,0.86,V_cam_0_20260423_014611.jpg
+2026-04-23 01:46:43,sem protetor auricular,0.78,V_cam_0_20260423_014643.jpg
+2026-04-23 01:47:13,"sem luvas, sem protetor auricular",0.76,V_cam_0_20260423_014713.jpg
+2026-04-23 01:47:43,"sem luvas, sem protetor auricular",0.75,V_cam_0_20260423_014743.jpg
+2026-04-23 01:48:13,sem capacete,0.45,V_cam_0_20260423_014813.jpg
+2026-04-23 01:48:43,"sem protetor auricular, sem capacete",0.61,V_cam_0_20260423_014843.jpg
+2026-04-23 01:49:13,"sem protetor auricular, sem capacete",0.46,V_cam_0_20260423_014913.jpg
+2026-04-23 01:49:43,"sem protetor auricular, sem capacete",0.64,V_cam_0_20260423_014943.jpg
+2026-04-23 01:50:13,"sem luvas, sem protetor auricular, sem capacete",0.50,V_cam_0_20260423_015013.jpg
+2026-04-23 01:51:35,sem capacete,0.49,V_cam_0_20260423_015135.jpg
+2026-04-23 01:52:05,sem capacete,0.59,V_cam_0_20260423_015205.jpg
+2026-04-23 01:52:35,"sem luvas, sem capacete",0.71,V_cam_0_20260423_015235.jpg
+2026-04-23 01:53:05,sem capacete,0.77,V_cam_0_20260423_015305.jpg
+2026-04-23 01:53:35,sem capacete,0.57,V_cam_0_20260423_015335.jpg
+2026-04-23 01:54:07,sem capacete,0.46,V_cam_0_20260423_015407.jpg
+2026-04-23 01:54:37,"sem luvas, sem capacete",0.46,V_cam_0_20260423_015437.jpg
+2026-04-23 01:55:08,sem capacete,0.77,V_cam_0_20260423_015508.jpg
+2026-04-23 01:58:27,sem luvas,0.61,V_cam_0_20260423_015827.jpg
+2026-04-23 01:58:57,sem luvas,0.53,V_cam_0_20260423_015857.jpg
+2026-04-23 01:59:28,sem capacete,0.52,V_cam_0_20260423_015928.jpg
+2026-04-23 02:00:05,"sem luvas, sem capacete",0.34,V_cam_0_20260423_020005.jpg
+2026-04-23 02:00:35,sem luvas,0.70,V_cam_0_20260423_020035.jpg
+2026-04-23 02:01:11,sem luvas,0.86,V_cam_0_20260423_020111.jpg
+2026-04-23 02:01:41,sem oculos,0.84,V_cam_0_20260423_020141.jpg
+2026-04-23 02:02:11,"sem oculos, sem luvas, sem capacete",0.83,V_cam_0_20260423_020211.jpg
+2026-04-23 02:02:41,"sem luvas, sem capacete",0.83,V_cam_0_20260423_020241.jpg
+2026-04-23 02:03:21,sem capacete,0.49,V_cam_0_20260423_020321.jpg
+2026-04-23 02:10:29,sem capacete,0.58,V_cam_0_20260423_021029.jpg
+2026-04-23 02:10:59,sem capacete,0.53,V_cam_0_20260423_021059.jpg
+2026-04-23 02:11:31,sem capacete,0.58,V_cam_0_20260423_021131.jpg
+2026-04-23 02:12:46,sem capacete,0.31,V_cam_0_20260423_021246.jpg
+2026-04-23 02:14:00,sem luvas,0.63,V_cam_1_20260423_021400.jpg
+2026-04-23 02:18:16,sem capacete,0.33,V_cam_0_20260423_021816.jpg
+2026-04-23 02:19:22,"sem luvas, sem capacete",0.75,V_cam_0_20260423_021922.jpg
+2026-04-23 02:19:56,sem luvas,0.62,V_cam_0_20260423_021956.jpg
+2026-04-23 02:20:26,sem luvas,0.87,V_cam_0_20260423_022026.jpg
+2026-04-23 02:20:56,"sem protetor auricular, sem capacete",0.72,V_cam_0_20260423_022056.jpg
+2026-04-23 02:21:26,"sem protetor auricular, sem capacete",0.80,V_cam_0_20260423_022126.jpg
+2026-04-23 02:21:58,sem luvas,0.77,V_cam_0_20260423_022158.jpg
+2026-04-23 02:22:08,sem luvas,0.81,V_cam_1_20260423_022208.jpg
+2026-04-23 02:22:39,sem protetor auricular,0.40,V_cam_1_20260423_022239.jpg
+2026-04-23 02:23:09,sem protetor auricular,0.36,V_cam_1_20260423_022309.jpg
+2026-04-23 02:23:21,sem oculos,0.44,V_cam_0_20260423_022321.jpg
+2026-04-23 02:26:53,sem capacete,0.34,V_cam_0_20260423_022653.jpg
+2026-04-23 02:27:44,sem luvas,0.77,V_cam_0_20260423_022744.jpg
+2026-04-23 02:28:14,sem protetor auricular,0.58,V_cam_0_20260423_022814.jpg
+2026-04-23 02:28:45,sem luvas,0.62,V_cam_0_20260423_022845.jpg
+2026-04-23 02:29:15,sem protetor auricular,0.62,V_cam_0_20260423_022915.jpg
+2026-04-23 02:29:45,"sem oculos, sem protetor auricular",0.64,V_cam_0_20260423_022945.jpg
+2026-04-23 02:29:56,"sem luvas, sem protetor auricular",0.58,V_cam_1_20260423_022956.jpg
+2026-04-23 02:30:28,"sem luvas, sem protetor auricular",0.69,V_cam_0_20260423_023028.jpg
+2026-04-23 02:30:59,sem luvas,0.73,V_cam_0_20260423_023058.jpg
+2026-04-23 02:31:28,"sem luvas, sem protetor auricular, sem capacete",0.65,V_cam_0_20260423_023128.jpg
+2026-04-23 02:31:58,sem capacete,0.82,V_cam_0_20260423_023158.jpg
+2026-04-23 02:35:05,sem capacete,0.63,V_cam_0_20260423_023505.jpg
+2026-04-23 02:35:51,sem capacete,0.57,V_cam_0_20260423_023551.jpg
+2026-04-23 02:36:24,sem capacete,0.76,V_cam_0_20260423_023624.jpg
+2026-04-23 02:36:54,sem protetor auricular,0.60,V_cam_0_20260423_023654.jpg
+2026-04-23 02:37:28,"sem luvas, sem capacete",0.77,V_cam_0_20260423_023728.jpg
+2026-04-23 02:37:58,"sem luvas, sem protetor auricular, sem capacete",0.69,V_cam_0_20260423_023758.jpg
+2026-04-23 02:38:29,sem luvas,0.81,V_cam_0_20260423_023829.jpg
+2026-04-23 02:39:19,"sem luvas, sem protetor auricular",0.70,V_cam_0_20260423_023919.jpg
+2026-04-23 02:39:49,sem luvas,0.62,V_cam_0_20260423_023949.jpg
+2026-04-23 02:40:19,"sem protetor auricular, sem capacete",0.45,V_cam_0_20260423_024019.jpg
+2026-04-23 02:40:49,sem protetor auricular,0.43,V_cam_0_20260423_024049.jpg
+2026-04-23 02:41:20,sem luvas,0.53,V_cam_0_20260423_024120.jpg
+2026-04-23 02:41:51,"sem luvas, sem protetor auricular",0.40,V_cam_0_20260423_024151.jpg
+2026-04-23 02:42:23,"sem luvas, sem protetor auricular",0.45,V_cam_0_20260423_024223.jpg
+2026-04-23 02:43:25,sem capacete,0.39,V_cam_0_20260423_024325.jpg
+2026-04-23 02:44:07,sem capacete,0.59,V_cam_0_20260423_024407.jpg
+2026-04-23 02:44:37,sem capacete,0.75,V_cam_0_20260423_024437.jpg
+2026-04-23 02:45:08,sem luvas,0.75,V_cam_0_20260423_024508.jpg
+2026-04-23 02:45:41,sem luvas,0.78,V_cam_0_20260423_024541.jpg
+2026-04-23 02:46:11,sem luvas,0.79,V_cam_0_20260423_024611.jpg
+2026-04-23 02:46:47,sem capacete,0.63,V_cam_0_20260423_024647.jpg
+2026-04-23 02:47:43,sem capacete,0.64,V_cam_0_20260423_024743.jpg
+2026-04-23 02:48:16,sem luvas,0.39,V_cam_0_20260423_024816.jpg
+2026-04-23 02:49:33,sem capacete,0.80,V_cam_0_20260423_024933.jpg
+2026-04-23 02:50:06,sem capacete,0.69,V_cam_0_20260423_025006.jpg
+2026-04-23 02:50:36,sem luvas,0.44,V_cam_0_20260423_025036.jpg
+2026-04-23 02:51:11,"sem protetor auricular, sem capacete",0.70,V_cam_0_20260423_025111.jpg
+2026-04-23 02:51:41,"sem luvas, sem protetor auricular, sem capacete",0.52,V_cam_0_20260423_025141.jpg
+2026-04-23 02:52:24,sem protetor auricular,0.44,V_cam_0_20260423_025224.jpg
+2026-04-23 02:52:54,"sem protetor auricular, sem capacete",0.47,V_cam_0_20260423_025254.jpg
+2026-04-23 02:53:24,sem protetor auricular,0.41,V_cam_0_20260423_025324.jpg
+2026-04-23 02:53:54,sem protetor auricular,0.42,V_cam_0_20260423_025354.jpg
+2026-04-23 02:54:24,"sem luvas, sem protetor auricular",0.42,V_cam_0_20260423_025424.jpg
+2026-04-23 02:54:54,"sem luvas, sem protetor auricular",0.44,V_cam_0_20260423_025454.jpg
+2026-04-23 02:55:36,sem protetor auricular,0.57,V_cam_0_20260423_025536.jpg
+2026-04-23 02:56:55,sem capacete,0.39,V_cam_0_20260423_025655.jpg
+2026-04-23 02:57:32,sem capacete,0.69,V_cam_0_20260423_025732.jpg
+2026-04-23 02:58:02,sem luvas,0.87,V_cam_0_20260423_025802.jpg
+2026-04-23 02:58:34,"sem luvas, sem bota",0.76,V_cam_0_20260423_025834.jpg
+2026-04-23 02:59:13,"sem bota, sem capacete",0.68,V_cam_0_20260423_025913.jpg
+2026-04-23 02:59:44,sem capacete,0.57,V_cam_0_20260423_025944.jpg
+2026-04-23 03:00:24,sem capacete,0.59,V_cam_0_20260423_030024.jpg
+2026-04-23 03:02:05,"sem luvas, sem capacete",0.69,V_cam_0_20260423_030205.jpg
+2026-04-23 03:02:37,sem capacete,0.62,V_cam_0_20260423_030237.jpg
+2026-04-23 03:03:09,"sem luvas, sem capacete",0.55,V_cam_0_20260423_030309.jpg
+2026-04-23 03:06:47,sem capacete,0.30,V_cam_0_20260423_030647.jpg
+2026-04-23 03:07:17,sem capacete,0.40,V_cam_0_20260423_030717.jpg
+2026-04-23 03:07:48,sem luvas,0.81,V_cam_0_20260423_030748.jpg
+2026-04-23 03:08:18,"sem luvas, sem capacete",0.70,V_cam_0_20260423_030818.jpg
+2026-04-23 03:08:48,sem luvas,0.63,V_cam_0_20260423_030848.jpg
+2026-04-23 03:09:18,sem luvas,0.64,V_cam_0_20260423_030918.jpg
+2026-04-23 03:09:48,"sem luvas, sem protetor auricular, sem capacete",0.62,V_cam_0_20260423_030948.jpg
+2026-04-23 03:10:20,sem luvas,0.40,V_cam_1_20260423_031020.jpg
+2026-04-23 03:10:50,sem protetor auricular,0.31,V_cam_1_20260423_031050.jpg
+2026-04-23 03:11:20,"sem luvas, sem protetor auricular",0.37,V_cam_1_20260423_031120.jpg
+2026-04-23 03:12:06,sem protetor auricular,0.31,V_cam_1_20260423_031206.jpg
+2026-04-23 03:12:40,"sem luvas, sem protetor auricular",0.46,V_cam_1_20260423_031239.jpg
+2026-04-23 03:12:59,"sem luvas, sem protetor auricular, sem capacete",0.49,V_cam_1_20260423_031259.jpg
+2026-04-23 03:18:05,sem capacete,0.40,V_cam_0_20260423_031805.jpg
+2026-04-23 03:18:45,sem luvas,0.83,V_cam_0_20260423_031845.jpg
+2026-04-23 03:19:15,sem capacete,0.48,V_cam_0_20260423_031915.jpg
+2026-04-23 03:19:46,sem luvas,0.79,V_cam_0_20260423_031946.jpg
+2026-04-23 03:20:18,sem luvas,0.76,V_cam_0_20260423_032018.jpg
+2026-04-23 03:20:48,"sem luvas, sem bota",0.58,V_cam_0_20260423_032048.jpg
+2026-04-23 03:21:47,sem luvas,0.57,V_cam_0_20260423_032147.jpg
+2026-04-23 03:22:21,sem luvas,0.35,V_cam_1_20260423_032221.jpg
+2026-04-23 03:22:56,sem protetor auricular,0.44,V_cam_1_20260423_032256.jpg
+2026-04-23 03:23:31,sem protetor auricular,0.43,V_cam_1_20260423_032331.jpg
+2026-04-23 03:29:27,sem capacete,0.81,V_cam_0_20260423_032927.jpg
+2026-04-23 03:29:57,"sem luvas, sem capacete",0.86,V_cam_0_20260423_032957.jpg
+2026-04-23 03:30:29,sem luvas,0.83,V_cam_0_20260423_033029.jpg
+2026-04-23 03:30:59,"sem luvas, sem capacete",0.85,V_cam_0_20260423_033059.jpg
+2026-04-23 03:31:40,sem capacete,0.85,V_cam_0_20260423_033140.jpg
+2026-04-23 03:32:11,sem capacete,0.85,V_cam_0_20260423_033211.jpg
+2026-04-23 03:32:40,sem luvas,0.76,V_cam_1_20260423_033240.jpg
+2026-04-23 03:32:46,sem capacete,0.49,V_cam_0_20260423_033246.jpg
+2026-04-23 03:33:26,sem luvas,0.53,V_cam_0_20260423_033326.jpg
+2026-04-23 03:33:56,"sem luvas, sem capacete",0.58,V_cam_0_20260423_033356.jpg
+2026-04-23 03:40:27,sem capacete,0.59,V_cam_0_20260423_034027.jpg
+2026-04-23 03:41:04,sem protetor auricular,0.70,V_cam_0_20260423_034104.jpg
+2026-04-23 03:41:36,"sem protetor auricular, sem capacete",0.68,V_cam_0_20260423_034136.jpg
+2026-04-23 03:42:07,"sem luvas, sem protetor auricular, sem capacete",0.85,V_cam_0_20260423_034206.jpg
+2026-04-23 03:42:37,sem luvas,0.84,V_cam_0_20260423_034237.jpg
+2026-04-23 03:43:07,"sem luvas, sem protetor auricular, sem capacete",0.80,V_cam_0_20260423_034307.jpg
+2026-04-23 03:43:43,"sem luvas, sem capacete",0.88,V_cam_0_20260423_034343.jpg
+2026-04-23 03:44:19,sem protetor auricular,0.75,V_cam_0_20260423_034419.jpg
+2026-04-23 03:44:52,sem oculos,0.72,V_cam_0_20260423_034452.jpg
+2026-04-23 03:45:24,sem luvas,0.73,V_cam_0_20260423_034524.jpg
+2026-04-23 03:45:54,"sem luvas, sem capacete",0.75,V_cam_0_20260423_034554.jpg
+2026-04-23 03:46:24,"sem luvas, sem protetor auricular",0.53,V_cam_0_20260423_034624.jpg
+2026-04-23 03:46:54,"sem luvas, sem capacete",0.38,V_cam_0_20260423_034654.jpg
+2026-04-23 03:47:26,sem capacete,0.70,V_cam_0_20260423_034726.jpg
+2026-04-23 03:54:16,sem capacete,0.79,V_cam_0_20260423_035416.jpg
+2026-04-23 03:54:46,sem capacete,0.65,V_cam_0_20260423_035446.jpg
+2026-04-23 03:55:16,"sem luvas, sem capacete",0.73,V_cam_0_20260423_035516.jpg
+2026-04-23 03:55:46,sem capacete,0.53,V_cam_0_20260423_035546.jpg
+2026-04-23 03:56:16,sem capacete,0.75,V_cam_0_20260423_035616.jpg
+2026-04-23 03:56:51,sem capacete,0.35,V_cam_0_20260423_035651.jpg
+2026-04-23 03:57:21,"sem luvas, sem capacete",0.64,V_cam_0_20260423_035721.jpg
+2026-04-23 03:57:51,sem luvas,0.58,V_cam_0_20260423_035751.jpg
+2026-04-23 03:58:23,sem luvas,0.56,V_cam_0_20260423_035823.jpg
+2026-04-23 03:59:14,sem luvas,0.47,V_cam_0_20260423_035914.jpg
+2026-04-23 03:59:44,sem oculos,0.54,V_cam_0_20260423_035944.jpg
+2026-04-23 04:00:14,"sem oculos, sem capacete",0.56,V_cam_0_20260423_040014.jpg
+2026-04-23 04:00:44,"sem luvas, sem capacete",0.47,V_cam_0_20260423_040044.jpg
+2026-04-23 04:01:14,"sem luvas, sem capacete",0.49,V_cam_0_20260423_040114.jpg
+2026-04-23 04:01:44,sem capacete,0.50,V_cam_0_20260423_040144.jpg
+2026-04-23 04:02:16,"sem luvas, sem capacete",0.70,V_cam_0_20260423_040215.jpg
+2026-04-23 04:02:53,sem capacete,0.44,V_cam_0_20260423_040253.jpg
+2026-04-23 04:03:23,"sem luvas, sem capacete",0.43,V_cam_0_20260423_040323.jpg
+2026-04-23 04:04:34,"sem luvas, sem capacete",0.70,V_cam_0_20260423_040434.jpg
+2026-04-23 04:05:39,sem protetor auricular,0.45,V_cam_0_20260423_040539.jpg
