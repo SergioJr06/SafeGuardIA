@@ -12,7 +12,7 @@
             "require_vest": true
         },
         "cam_1": {
-            "nome": "DVR - Canal 1 (Escritorio)",
+            "nome": "DVR - Canal 1",
             "source": "rtsp://sergio:senai123@192.168.0.200:554/cam/realmonitor?channel=1&subtype=0",
             "require_helmet": true,
             "require_glasses": true,
@@ -23,7 +23,7 @@
             "require_vest": true
         },
         "cam_2": {
-            "nome": "DVR - Canal 3 (Almoxarifado)",
+            "nome": "DVR - Canal 3",
             "source": "rtsp://sergio:senai123@192.168.0.200:554/cam/realmonitor?channel=3&subtype=0",
             "require_helmet": true,
             "require_glasses": true,

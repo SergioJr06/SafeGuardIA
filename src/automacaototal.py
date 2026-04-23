@@ -263,6 +263,11 @@ CONFIG_RELOAD_INTERVAL = 30
 WINDOW_NAME = "SafeGuard IA - Monitor"
 cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL | cv2.WINDOW_FREERATIO)
 
+WINDOW_NAME = "SafeGuard IA - Monitor"
+cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL | cv2.WINDOW_FREERATIO)
+
+cv2.setWindowProperty(WINDOW_NAME, cv2.WND_PROP_FULLSCREEN, cv2.WINDOW_FULLSCREEN)
+
 while True:
     try:
         if not os.path.exists(CONFIG_PATH):
