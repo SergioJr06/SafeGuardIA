@@ -2,6 +2,10 @@
 
 O **SafeGuard IA** é uma solução de Visão Computacional desenvolvida para as exigências da **Indústria 4.0**. Utilizando a arquitetura **YOLOv8**, o sistema automatiza a fiscalização de Equipamentos de Proteção Individual (EPIs), garantindo segurança em tempo real com gestão flexível, remota e integrada.
 
+## Projeto Campeão da I-Tech 2026: Feira de Ciências do SENAI-SP Cruzeiro
+
+---
+
 ## 🧠 Como funciona
 
 ```mermaid
