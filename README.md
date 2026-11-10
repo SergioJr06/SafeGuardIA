@@ -2,6 +2,18 @@
 
 O **SafeGuard IA** é uma solução de Visão Computacional desenvolvida para as exigências da **Indústria 4.0**. Utilizando a arquitetura **YOLOv8**, o sistema automatiza a fiscalização de Equipamentos de Proteção Individual (EPIs), garantindo segurança em tempo real com gestão flexível, remota e integrada.
 
+## 🧠 Como funciona
+
+```mermaid
+flowchart LR
+    A[Câmera / DVR] --> B[Engine de visão<br/>YOLOv8]
+    C[config.json<br/>regras por câmera] --> B
+    B --> D{EPI obrigatório<br/>ausente?}
+    D -->|sim| E[Snapshot +<br/>relatorio_violacoes.csv]
+    D -->|não| F[Segue monitorando]
+    G[Painel Streamlit] -->|edita| C
+```
+
 ---
 
 ## 🚀 Funcionalidades Principais
