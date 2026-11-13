@@ -4,6 +4,8 @@ O **SafeGuard IA** é uma solução de Visão Computacional desenvolvida para as
 
 ## Projeto Campeão da I-Tech 2026: Feira de Ciências do SENAI-SP Cruzeiro
 
+![interface](docs/python_drafts/InterfacePy.png)
+
 ---
 
 ## 🧠 Como funciona
@@ -17,6 +19,8 @@ flowchart LR
     D -->|não| F[Segue monitorando]
     G[Painel Streamlit] -->|edita| C
 ```
+
+![infracao](docs/python_drafts/Infracao.png)
 
 ---
 
